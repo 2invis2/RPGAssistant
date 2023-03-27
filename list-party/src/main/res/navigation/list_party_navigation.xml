@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/list_party_nav_graph"
+    app:startDestination="@id/listPartyFragment">
+
+    <fragment
+        android:id="@+id/listPartyFragment"
+        android:name="com.inviz.list_party.list_party.ui.ListPartyFragment"
+        android:label="@string/list_party_fragment_name"
+        tools:layout="@layout/fragment_list_party">
+        <action
+            android:id="@+id/action_listPartyFragment_to_createPartyFragment"
+            app:destination="@id/createPartyFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/createPartyFragment"
+        android:name="com.inviz.list_party.create_party.ui.CreatePartyFragment"
+        android:label="@string/create_party_fragment_name"
+        tools:layout="@layout/fragment_create_party">
+        <action
+            android:id="@+id/action_createPartyFragment_to_listPartyFragment"
+            app:destination="@id/listPartyFragment"
+            app:popUpTo="@id/list_party_nav_graph" />
+    </fragment>
+</navigation>
