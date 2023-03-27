@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">list-party</string>
+
+    <string name="create_party_btn">Создать</string>
+    <string name="list_party_fragment_name">Список НРИ партий</string>
+    <string name="create_party_fragment_name">Создание партии</string>
 </resources>

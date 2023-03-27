@@ -3,10 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/main_activity">
+    app:startDestination="@id/list_party_nav_graph">
 
-    <activity
-        android:id="@+id/main_activity"
-        android:name="com.inviz.roleplayparty.MainActivity"
-        android:label="@string/first_fragment_label"/>
+    <include app:graph="@navigation/list_party_navigation" />
 </navigation>
