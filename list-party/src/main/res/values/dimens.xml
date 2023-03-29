@@ -1,4 +1,4 @@
 <resources>
+    <dimen name="standard_margin">15dp</dimen>
     <dimen name="fab_margin">25dp</dimen>
-    <dimen name="btn_margin">15dp</dimen>
 </resources>
