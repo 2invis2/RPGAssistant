@@ -16,7 +16,7 @@ data class CSFateCore(
     val thirdAspect: String,
     val refresh: Byte,
     val skills: Map<Skills, Byte>,
-    val stunts: Set<String>,
+    val stunts: String,
     val physicalStress: ArrayList<Boolean>,
     val mentalStress: ArrayList<Boolean>,
     val consequences: Map<Consequences, String>?,
@@ -49,5 +49,4 @@ enum class Consequences {
     MODERATE,
     SEVERE,
     EXTRA_MILD,
-
 }
