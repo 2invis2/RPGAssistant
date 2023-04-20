@@ -4,18 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Spinner
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.inviz.domain.entity.RPGSystem
+import com.github.razir.progressbutton.*
+import com.inviz.domain.entity.findRPGSystemByValue
 import com.inviz.domain.entity.getRPGSystemListValues
 import com.inviz.list_party.R
 import com.inviz.list_party.create_party.presentation.CreatePartyState
 import com.inviz.list_party.create_party.presentation.CreatePartyViewModel
 import com.inviz.list_party.databinding.FragmentCreatePartyBinding
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class CreatePartyFragment : Fragment() {
@@ -24,12 +23,7 @@ class CreatePartyFragment : Fragment() {
 
     private val binding get() = _binding!!
 
-    private lateinit var viewModel: CreatePartyViewModel
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(this)[CreatePartyViewModel::class.java]
-    }
+    private val viewModel by viewModel<CreatePartyViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,20 +36,17 @@ class CreatePartyFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.state.observe(viewLifecycleOwner, ::onStateViews)
+        viewModel.state.observe(viewLifecycleOwner, ::onStateScreen)
 
         binding.createPartyBtn.setOnClickListener {
-            findNavController().navigate(R.id.action_createPartyFragment_to_listPartyFragment)
+            viewModel.createParty(
+                findRPGSystemByValue(binding.system.selectedItem as String)!!,
+                binding.nameParty.text.toString()
+            )
         }
 
-        binding.createPartyBtn.setOnClickListener {
-            binding.system.onItemSelected { position ->
-                viewModel.createParty(
-                    RPGSystem.valueOf(binding.system.adapter.getItem(position) as String),
-                    binding.nameParty.text.toString()
-                )
-            }
-        }
+        bindProgressButton(binding.createPartyBtn)
+        binding.createPartyBtn.attachTextChangeAnimator()
 
         onSpinnerCreated()
     }
@@ -74,14 +65,45 @@ class CreatePartyFragment : Fragment() {
         spinner.adapter = adapter
     }
 
-    private fun onStateViews(state: CreatePartyState) {
+    private fun onStateScreen(state: CreatePartyState) {
         when (state) {
+            CreatePartyState.Default -> showDefaultScreen()
+            CreatePartyState.InProgress -> showInProgressScreen()
             CreatePartyState.Complete -> showCompletedScreen()
             is CreatePartyState.Error -> showErrorDialog(state.e)
         }
     }
 
+    private fun showDefaultScreen() {
+        howShowView(View.VISIBLE)
+    }
+
+    private fun showInProgressScreen() {
+        howShowView(View.VISIBLE)
+        binding.apply {
+            system.isEnabled = false
+            nameParty.isEnabled = false
+            createPartyBtn.isEnabled = false
+            createPartyBtn.showProgress {
+                gravity = DrawableButton.GRAVITY_CENTER
+            }
+        }
+    }
+
     private fun showCompletedScreen() {
+        howShowView(View.VISIBLE)
+
+        binding.apply {
+            system.isEnabled = true
+            nameParty.isEnabled = true
+            createPartyBtn.isEnabled = true
+            createPartyBtn.hideProgress(R.string.create_party_btn)
+        }
+
+        findNavController().navigate(R.id.action_createPartyFragment_to_listPartyFragment)
+    }
+
+    private fun howShowView(visibility: Int) {
         binding.apply {
             systemDescription.visibility = View.VISIBLE
             system.visibility = View.VISIBLE
@@ -91,17 +113,12 @@ class CreatePartyFragment : Fragment() {
         }
     }
 
-
     private fun showErrorDialog(e: Throwable) {
-
+        //TODO сделать диалог ошибки
     }
-}
 
-fun Spinner.onItemSelected(listener: (Int) -> Unit) {
-    onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-        override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-        }
-
-        override fun onNothingSelected(parent: AdapterView<*>?) {}
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
