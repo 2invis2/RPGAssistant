@@ -28,7 +28,7 @@ class CreatePartyFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentCreatePartyBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -105,11 +105,11 @@ class CreatePartyFragment : Fragment() {
 
     private fun howShowView(visibility: Int) {
         binding.apply {
-            systemDescription.visibility = View.VISIBLE
-            system.visibility = View.VISIBLE
-            nameParty.visibility = View.VISIBLE
-            description.visibility = View.VISIBLE
-            createPartyBtn.visibility = View.VISIBLE
+            systemDescription.visibility = visibility
+            system.visibility = visibility
+            nameParty.visibility = visibility
+            description.visibility = visibility
+            createPartyBtn.visibility = visibility
         }
     }
 
