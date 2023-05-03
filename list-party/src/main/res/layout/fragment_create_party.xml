@@ -4,13 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".create_party.ui.CreatePartyFragment">
+    tools:context=".create_party.ui.CreatePartyFragment"
+    tools:ignore="NewApi">
 
     <TextView
         android:id="@+id/system_description"
+        style="@style/Text1.Main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/standard_margin"
+        android:layout_margin="@dimen/standard_indent"
         android:text="@string/create_party_change_system"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -18,29 +20,40 @@
 
     <Spinner
         android:id="@+id/system"
+        style="@style/Text1.Main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/standard_margin"
+        android:layout_margin="@dimen/standard_indent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/system_description" />
 
-    <EditText
-        android:id="@+id/name_party"
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/standard_margin"
-        android:hint="@string/create_party_name_party"
-        android:imeOptions="actionDone"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_margin="@dimen/standard_indent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/system" />
+        app:layout_constraintTop_toBottomOf="@+id/system">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/name_party"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Widget.MaterialComponents.TextInputEditText.OutlinedBox"
+            android:hint="@string/create_party_name_party"
+            android:inputType="text"
+            android:imeOptions="actionDone" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
         android:id="@+id/description"
+        style="@style/Text2.Sec"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/standard_margin"
+        android:layout_margin="@dimen/standard_indent"
         android:text="@string/create_party_description"
         app:layout_constraintBottom_toTopOf="@+id/create_party_btn"
         app:layout_constraintEnd_toEndOf="parent"
@@ -48,9 +61,10 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/create_party_btn"
+        style="@style/Button.Progress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/standard_margin"
+        android:layout_margin="@dimen/standard_indent"
         android:text="@string/create_party_btn"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

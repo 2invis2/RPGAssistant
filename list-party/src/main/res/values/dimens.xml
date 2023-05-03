@@ -1,4 +1,8 @@
 <resources>
-    <dimen name="standard_margin">15dp</dimen>
+    <dimen name="standard_indent">15dp</dimen>
     <dimen name="fab_margin">25dp</dimen>
+    <dimen name="recycler_view_padding_bottom_with_fab">80dp</dimen>
+    <dimen name="item_recycler_view_bg_corner_radius">15dp</dimen>
+    <dimen name="item_recycler_view_margin">10dp</dimen>
+    <dimen name="standard_elevation">8dp</dimen>
 </resources>
