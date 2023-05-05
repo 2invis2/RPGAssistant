@@ -4,23 +4,26 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.inviz.base.ui.BaseFragment
 import com.inviz.domain.entity.Party
 import com.inviz.list_party.R
 import com.inviz.list_party.databinding.FragmentListPartyBinding
 import com.inviz.list_party.list_party.presentation.ListPartyState
+import com.inviz.list_party.list_party.presentation.ListPartyState.Complete
+import com.inviz.list_party.list_party.presentation.ListPartyState.Error
+import com.inviz.list_party.list_party.presentation.ListPartyState.InProgress
 import com.inviz.list_party.list_party.presentation.ListPartyViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class ListPartyFragment : Fragment() {
+class ListPartyFragment : BaseFragment() {
 
     private var _binding: FragmentListPartyBinding? = null
 
     private val binding get() = _binding!!
 
-    private val viewModel by viewModel<ListPartyViewModel>()
+    override val viewModel by viewModel<ListPartyViewModel>()
 
     private lateinit var adapter: ListPartyAdapter
 
@@ -33,7 +36,7 @@ class ListPartyFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentListPartyBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -55,9 +58,9 @@ class ListPartyFragment : Fragment() {
 
     private fun onStateScreen(state: ListPartyState) {
         when (state) {
-            ListPartyState.InProgress -> showInProgressScreen()
-            is ListPartyState.Complete -> showCompletedScreen(state.parties)
-            is ListPartyState.Error -> showErrorDialog(state.e)
+            InProgress -> showInProgressScreen()
+            is Complete -> showCompletedScreen(state.parties)
+            is Error -> showErrorDialog(state.throwable)
         }
     }
 
@@ -66,10 +69,6 @@ class ListPartyFragment : Fragment() {
 
     private fun showCompletedScreen(parties: Set<Party>?) {
         adapter.submitList(parties?.toList())
-    }
-
-    private fun showErrorDialog(e: Throwable) {
-
     }
 
     override fun onDestroyView() {

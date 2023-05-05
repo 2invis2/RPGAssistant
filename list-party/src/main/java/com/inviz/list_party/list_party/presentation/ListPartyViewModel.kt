@@ -1,24 +1,22 @@
 package com.inviz.list_party.list_party.presentation
 
-import android.content.ContentValues.TAG
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.inviz.base.presentation.BaseViewModel
 import com.inviz.domain.entity.Party
-import com.inviz.domain.entity.PartyState
 import com.inviz.domain.entity.Player
-import com.inviz.domain.entity.RPGSystem
 import com.inviz.domain.use_case.party.LoadUsersPartiesUseCase
+import com.inviz.list_party.list_party.presentation.ListPartyState.Complete
+import com.inviz.list_party.list_party.presentation.ListPartyState.Error
+import com.inviz.list_party.list_party.presentation.ListPartyState.InProgress
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.util.*
 
 class ListPartyViewModel(
     private val loadUsersPartiesUseCase: LoadUsersPartiesUseCase,
-) : ViewModel() {
+) : BaseViewModel() {
 
     private val _state = MutableLiveData<ListPartyState>()
     val state: LiveData<ListPartyState> = _state
@@ -31,8 +29,7 @@ class ListPartyViewModel(
     )
 
     fun loadParties() {
-
-        _state.value = ListPartyState.InProgress
+        _state.value = InProgress
         viewModelScope.launch {
             var parties: Set<Party>? = null
             try {
@@ -40,10 +37,14 @@ class ListPartyViewModel(
                     parties = loadUsersPartiesUseCase.loadParties(user.id)
                 }
             } catch (e: Exception) {
-                Log.e(TAG, "Ошибка выполнения запроса: ${e.message}")
+                handleError(e)
             } finally {
-                _state.value = ListPartyState.Complete(parties)
+                _state.value = Complete(parties)
             }
         }
+    }
+
+    override fun handleError(throwable: Throwable) {
+        _state.value = Error(throwable)
     }
 }

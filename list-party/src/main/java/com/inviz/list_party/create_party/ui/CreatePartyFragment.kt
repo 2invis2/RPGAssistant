@@ -5,25 +5,33 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.github.razir.progressbutton.*
+import com.github.razir.progressbutton.DrawableButton
+import com.github.razir.progressbutton.attachTextChangeAnimator
+import com.github.razir.progressbutton.bindProgressButton
+import com.github.razir.progressbutton.hideProgress
+import com.github.razir.progressbutton.showProgress
+import com.inviz.base.ui.BaseFragment
 import com.inviz.domain.entity.findRPGSystemByValue
 import com.inviz.domain.entity.getRPGSystemListValues
 import com.inviz.list_party.R
 import com.inviz.list_party.create_party.presentation.CreatePartyState
+import com.inviz.list_party.create_party.presentation.CreatePartyState.Complete
+import com.inviz.list_party.create_party.presentation.CreatePartyState.Default
+import com.inviz.list_party.create_party.presentation.CreatePartyState.Error
+import com.inviz.list_party.create_party.presentation.CreatePartyState.InProgress
 import com.inviz.list_party.create_party.presentation.CreatePartyViewModel
 import com.inviz.list_party.databinding.FragmentCreatePartyBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class CreatePartyFragment : Fragment() {
+class CreatePartyFragment : BaseFragment() {
 
     private var _binding: FragmentCreatePartyBinding? = null
 
     private val binding get() = _binding!!
 
-    private val viewModel by viewModel<CreatePartyViewModel>()
+    override val viewModel by viewModel<CreatePartyViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -67,10 +75,10 @@ class CreatePartyFragment : Fragment() {
 
     private fun onStateScreen(state: CreatePartyState) {
         when (state) {
-            CreatePartyState.Default -> showDefaultScreen()
-            CreatePartyState.InProgress -> showInProgressScreen()
-            CreatePartyState.Complete -> showCompletedScreen()
-            is CreatePartyState.Error -> showErrorDialog(state.e)
+            Default -> showDefaultScreen()
+            InProgress -> showInProgressScreen()
+            Complete -> showCompletedScreen()
+            is Error -> showErrorDialog(state.throwable)
         }
     }
 
@@ -111,10 +119,6 @@ class CreatePartyFragment : Fragment() {
             description.visibility = visibility
             createPartyBtn.visibility = visibility
         }
-    }
-
-    private fun showErrorDialog(e: Throwable) {
-        //TODO сделать диалог ошибки
     }
 
     override fun onDestroyView() {
