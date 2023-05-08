@@ -65,10 +65,20 @@ class ListPartyFragment : BaseFragment() {
     }
 
     private fun showInProgressScreen() {
+        binding.apply {
+            progressHorizontal.visibility = View.VISIBLE
+            partyRecycler.isEnabled = false
+            createPartyFab.isEnabled = false
+        }
     }
 
     private fun showCompletedScreen(parties: Set<Party>?) {
         adapter.submitList(parties?.toList())
+        binding.apply {
+            progressHorizontal.visibility = View.GONE
+            partyRecycler.isEnabled = true
+            createPartyFab.isEnabled = true
+        }
     }
 
     override fun onDestroyView() {
