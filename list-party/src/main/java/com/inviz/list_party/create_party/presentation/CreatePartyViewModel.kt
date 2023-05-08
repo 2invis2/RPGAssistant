@@ -27,8 +27,8 @@ class CreatePartyViewModel(
     private val _state = MutableLiveData<CreatePartyState>()
     val state: LiveData<CreatePartyState> = _state
 
-    private val _validateText = SingleLiveEvent<Boolean>()
-    val validateText: LiveData<Boolean> = _validateText
+    private val _validateText = SingleLiveEvent<CreatePartyTextValidation>()
+    val validateText: LiveData<CreatePartyTextValidation> = _validateText
 
     private val validator = StringsValidator()
 
@@ -75,8 +75,12 @@ class CreatePartyViewModel(
         }
     }
 
-    fun isValidText(text: String) {
-        _validateText.value = validator.isNotBlankOrEmpty(text)
+    fun isValidText(nameParty: String, nameSystem: String) {
+        val validText = CreatePartyTextValidation(
+            validator.isNotBlankOrEmpty(nameParty),
+            validator.isNotBlankOrEmpty(nameSystem)
+        )
+        _validateText.value = validText
     }
 
     override fun handleError(throwable: Throwable) {

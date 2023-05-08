@@ -20,6 +20,7 @@ import com.inviz.list_party.create_party.presentation.CreatePartyState.Complete
 import com.inviz.list_party.create_party.presentation.CreatePartyState.Default
 import com.inviz.list_party.create_party.presentation.CreatePartyState.Error
 import com.inviz.list_party.create_party.presentation.CreatePartyState.InProgress
+import com.inviz.list_party.create_party.presentation.CreatePartyTextValidation
 import com.inviz.list_party.create_party.presentation.CreatePartyViewModel
 import com.inviz.list_party.databinding.FragmentCreatePartyBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -45,10 +46,13 @@ class CreatePartyFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.state.observe(viewLifecycleOwner, ::onStateScreen)
-        viewModel.validateText.observe(viewLifecycleOwner, ::showValidationNameParty)
+        viewModel.validateText.observe(viewLifecycleOwner, ::showValidation)
 
         binding.createPartyBtn.setOnClickListener {
-            viewModel.isValidText(binding.namePartyEditText.text.toString())
+            viewModel.isValidText(
+                binding.namePartyEditText.text.toString(),
+                binding.systemSpinner.text.toString()
+            )
         }
 
         bindProgressButton(binding.createPartyBtn)
@@ -76,18 +80,25 @@ class CreatePartyFragment : BaseFragment() {
         }
     }
 
-    private fun showValidationNameParty(valid: Boolean) {
-        if (valid) {
+    private fun showValidation(valid: CreatePartyTextValidation) {
+        if (validation(valid)) {
             viewModel.createParty(
                 findRPGSystemByValue(binding.systemSpinner.text.toString())!!,
                 binding.namePartyEditText.text.toString()
             )
         } else {
-            binding.namePartyLayout.error = getString(R.string.edit_text_not_empty)
-            binding.namePartyEditText.requestFocus()
-            binding.namePartyEditText.setSelection(0)
+            if (!valid.nameSystemValid) {
+                binding.systemLayout.error = getString(R.string.edit_text_not_empty)
+            }
+
+            if (!valid.namePartyValid) {
+                binding.namePartyLayout.error = getString(R.string.edit_text_not_empty)
+            }
         }
     }
+
+    private fun validation(valid: CreatePartyTextValidation) =
+        valid.namePartyValid && valid.nameSystemValid
 
     private fun showDefaultScreen() {
         howShowView(View.VISIBLE)
@@ -95,35 +106,34 @@ class CreatePartyFragment : BaseFragment() {
 
     private fun showInProgressScreen() {
         howShowView(View.VISIBLE)
-        binding.apply {
-            system.isEnabled = false
-            namePartyEditText.isEnabled = false
-            createPartyBtn.isEnabled = false
-            createPartyBtn.showProgress {
-                gravity = DrawableButton.GRAVITY_CENTER
-            }
+        howEnabledView(false)
+        binding.createPartyBtn.showProgress {
+            gravity = DrawableButton.GRAVITY_CENTER
         }
     }
 
     private fun showCompletedScreen() {
         howShowView(View.VISIBLE)
-
-        binding.apply {
-            system.isEnabled = true
-            namePartyEditText.isEnabled = true
-            createPartyBtn.isEnabled = true
-            createPartyBtn.hideProgress(R.string.create_party_btn)
-        }
+        howEnabledView(true)
+        binding.createPartyBtn.hideProgress(R.string.create_party_btn)
 
         findNavController().navigate(R.id.action_createPartyFragment_to_listPartyFragment)
     }
 
     private fun howShowView(visibility: Int) {
         binding.apply {
-            system.visibility = visibility
+            systemLayout.visibility = visibility
             namePartyEditText.visibility = visibility
             description.visibility = visibility
             createPartyBtn.visibility = visibility
+        }
+    }
+
+    private fun howEnabledView(enabled: Boolean) {
+        binding.apply {
+            systemLayout.isEnabled = enabled
+            namePartyEditText.isEnabled = enabled
+            createPartyBtn.isEnabled = enabled
         }
     }
 

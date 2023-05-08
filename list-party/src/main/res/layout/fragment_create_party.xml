@@ -8,7 +8,7 @@
     tools:ignore="NewApi">
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/system"
+        android:id="@+id/system_layout"
         style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -35,7 +35,7 @@
         app:endIconMode="clear_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/system">
+        app:layout_constraintTop_toBottomOf="@+id/system_layout">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/name_party_edit_text"
