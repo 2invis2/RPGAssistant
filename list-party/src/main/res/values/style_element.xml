@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="ListItem" tools:ignore="NewApi">
+        <item name="android:background">@drawable/bg_recycler_item</item>
+        <item name="android:layout_margin">@dimen/item_recycler_view_margin</item>
+        <item name="android:padding">@dimen/standard_indent</item>
+        <item name="android:elevation">@dimen/standard_elevation</item>
+    </style>
+
+    <style name="VisibleCursorOnError" tools:ignore="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeErrorColor">@color/cursor_error_color</item>
+    </style>
+</resources>
