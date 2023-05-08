@@ -58,17 +58,13 @@ class CreatePartyFragment : BaseFragment() {
     }
 
     private fun onSpinnerCreated() {
-        val spinner = binding.system
-        spinner.onItemSelectedListener
-
         val adapter = ArrayAdapter(
             requireContext(),
-            android.R.layout.simple_spinner_item,
+            R.layout.item_system,
             getRPGSystemListValues()
         )
 
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinner.adapter = adapter
+        binding.systemSpinner.setAdapter(adapter)
     }
 
     private fun onStateScreen(state: CreatePartyState) {
@@ -83,7 +79,7 @@ class CreatePartyFragment : BaseFragment() {
     private fun showValidationNameParty(valid: Boolean) {
         if (valid) {
             viewModel.createParty(
-                findRPGSystemByValue(binding.system.selectedItem as String)!!,
+                findRPGSystemByValue(binding.systemSpinner.text.toString())!!,
                 binding.namePartyEditText.text.toString()
             )
         } else {
@@ -124,7 +120,6 @@ class CreatePartyFragment : BaseFragment() {
 
     private fun howShowView(visibility: Int) {
         binding.apply {
-            systemDescription.visibility = visibility
             system.visibility = visibility
             namePartyEditText.visibility = visibility
             description.visibility = visibility
