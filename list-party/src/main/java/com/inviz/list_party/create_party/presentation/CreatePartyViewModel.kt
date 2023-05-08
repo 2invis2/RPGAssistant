@@ -13,6 +13,8 @@ import com.inviz.list_party.create_party.presentation.CreatePartyState.Complete
 import com.inviz.list_party.create_party.presentation.CreatePartyState.Default
 import com.inviz.list_party.create_party.presentation.CreatePartyState.Error
 import com.inviz.list_party.create_party.presentation.CreatePartyState.InProgress
+import com.inviz.utility.SingleLiveEvent
+import com.inviz.validator.StringsValidator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -24,6 +26,11 @@ class CreatePartyViewModel(
 
     private val _state = MutableLiveData<CreatePartyState>()
     val state: LiveData<CreatePartyState> = _state
+
+    private val _validateText = SingleLiveEvent<Boolean>()
+    val validateText: LiveData<Boolean> = _validateText
+
+    private val validator = StringsValidator()
 
     init {
         _state.value = Default
@@ -66,6 +73,10 @@ class CreatePartyViewModel(
                 _state.value = Complete
             }
         }
+    }
+
+    fun isValidText(text: String) {
+        _validateText.value = validator.isNotBlankOrEmpty(text)
     }
 
     override fun handleError(throwable: Throwable) {

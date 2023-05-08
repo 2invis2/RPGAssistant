@@ -45,12 +45,10 @@ class CreatePartyFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.state.observe(viewLifecycleOwner, ::onStateScreen)
+        viewModel.validateText.observe(viewLifecycleOwner, ::showValidationNameParty)
 
         binding.createPartyBtn.setOnClickListener {
-            viewModel.createParty(
-                findRPGSystemByValue(binding.system.selectedItem as String)!!,
-                binding.nameParty.text.toString()
-            )
+            viewModel.isValidText(binding.namePartyEditText.text.toString())
         }
 
         bindProgressButton(binding.createPartyBtn)
@@ -82,6 +80,19 @@ class CreatePartyFragment : BaseFragment() {
         }
     }
 
+    private fun showValidationNameParty(valid: Boolean) {
+        if (valid) {
+            viewModel.createParty(
+                findRPGSystemByValue(binding.system.selectedItem as String)!!,
+                binding.namePartyEditText.text.toString()
+            )
+        } else {
+            binding.namePartyLayout.error = getString(R.string.edit_text_not_empty)
+            binding.namePartyEditText.requestFocus()
+            binding.namePartyEditText.setSelection(0)
+        }
+    }
+
     private fun showDefaultScreen() {
         howShowView(View.VISIBLE)
     }
@@ -90,7 +101,7 @@ class CreatePartyFragment : BaseFragment() {
         howShowView(View.VISIBLE)
         binding.apply {
             system.isEnabled = false
-            nameParty.isEnabled = false
+            namePartyEditText.isEnabled = false
             createPartyBtn.isEnabled = false
             createPartyBtn.showProgress {
                 gravity = DrawableButton.GRAVITY_CENTER
@@ -103,7 +114,7 @@ class CreatePartyFragment : BaseFragment() {
 
         binding.apply {
             system.isEnabled = true
-            nameParty.isEnabled = true
+            namePartyEditText.isEnabled = true
             createPartyBtn.isEnabled = true
             createPartyBtn.hideProgress(R.string.create_party_btn)
         }
@@ -115,7 +126,7 @@ class CreatePartyFragment : BaseFragment() {
         binding.apply {
             systemDescription.visibility = visibility
             system.visibility = visibility
-            nameParty.visibility = visibility
+            namePartyEditText.visibility = visibility
             description.visibility = visibility
             createPartyBtn.visibility = visibility
         }

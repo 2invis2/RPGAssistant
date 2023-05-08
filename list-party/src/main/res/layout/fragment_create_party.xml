@@ -29,22 +29,23 @@
         app:layout_constraintTop_toBottomOf="@+id/system_description" />
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/name_party_layout"
+        style="@style/VisibleCursorOnError"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_margin="@dimen/standard_indent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/system">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/name_party"
+            android:id="@+id/name_party_edit_text"
+            style="@style/Widget.MaterialComponents.TextInputEditText.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/Widget.MaterialComponents.TextInputEditText.OutlinedBox"
             android:hint="@string/create_party_name_party"
-            android:inputType="text"
-            android:imeOptions="actionDone" />
+            android:imeOptions="actionDone"
+            android:inputType="text" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
