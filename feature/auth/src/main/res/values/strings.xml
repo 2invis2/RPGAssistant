@@ -2,4 +2,6 @@
 <resources>
     <string name="auth_nickname_hint">Введите имя пользователя</string>
     <string name="auth_password_hint">Введите пароль</string>
+    <string name="auth_log_in">Войти</string>
+    <string name="auth_sign_up">Зарегистрироваться</string>
 </resources>
