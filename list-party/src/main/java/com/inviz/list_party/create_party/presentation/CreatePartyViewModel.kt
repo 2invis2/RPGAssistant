@@ -77,8 +77,8 @@ class CreatePartyViewModel(
 
     fun isValidText(nameParty: String, nameSystem: String) {
         val validText = CreatePartyTextValidation(
-            validator.isNotBlankOrEmpty(nameParty),
-            validator.isNotBlankOrEmpty(nameSystem)
+            validator.isNotBlankOrEmpty(nameSystem),
+            validator.isNotBlankOrEmpty(nameParty)
         )
         _validateText.value = validText
     }
