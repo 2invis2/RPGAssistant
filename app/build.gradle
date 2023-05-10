@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace 'com.inviz.roleplayparty'
+    namespace 'com.inviz.rpgassistant'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.inviz.roleplayparty"
+        applicationId "com.inviz.rpgassistant"
         minSdk 28
         targetSdk 33
         versionCode 1

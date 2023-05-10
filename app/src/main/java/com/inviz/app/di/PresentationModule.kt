@@ -1,4 +1,4 @@
-package com.inviz.roleplayparty.di
+package com.inviz.app.di
 
 import android.content.Context
 import com.inviz.list_party.create_party.presentation.CreatePartyViewModel

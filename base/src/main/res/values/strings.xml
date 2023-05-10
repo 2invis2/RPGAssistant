@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">RPG Assistant</string>
+
     <string name="error_dialog_title">Ошибка</string>
     <string name="error_dialog_ok">OK</string>
     <string name="error_dialog_unknown_error">Что-то пошло не так.</string>

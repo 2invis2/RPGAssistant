@@ -1,4 +1,4 @@
-package com.inviz.roleplayparty.di
+package com.inviz.app.di
 
 import com.inviz.domain.PartyRepository
 import android.content.Context

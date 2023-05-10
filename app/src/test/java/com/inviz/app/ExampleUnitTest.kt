@@ -1,4 +1,4 @@
-package com.inviz.roleplayparty
+package com.inviz.app
 
 import org.junit.Test
 

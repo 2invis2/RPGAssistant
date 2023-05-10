@@ -1,6 +1,4 @@
 <resources>
-    <string name="app_name">list-party</string>
-
     <string name="create_party_btn">Создать</string>
     <string name="list_party_fragment_name">Список НРИ партий</string>
     <string name="create_party_fragment_name">Создание партии</string>
@@ -8,5 +6,4 @@
     <string name="create_party_change_system">Выберите систему</string>
     <string name="create_party_name_party">Введите название партии</string>
     <string name="edit_text_not_empty">Поле не может быть пустым</string>
-
 </resources>

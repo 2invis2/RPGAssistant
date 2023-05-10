@@ -1,10 +1,10 @@
-package com.inviz.roleplayparty
+package com.inviz.app
 
 import android.app.Application
 import com.inviz.data.api.ApiService
-import com.inviz.roleplayparty.di.DataModule
-import com.inviz.roleplayparty.di.DomainModule
-import com.inviz.roleplayparty.di.PresentationModule
+import com.inviz.app.di.DataModule
+import com.inviz.app.di.DomainModule
+import com.inviz.app.di.PresentationModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -12,7 +12,7 @@ import org.koin.core.logger.Level
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class RolePlayPartyApp : Application() {
+class RPGAssistantApp : Application() {
 
     private val dataModule = DataModule(this)
     private val domainModule = DomainModule(this)
@@ -22,7 +22,7 @@ class RolePlayPartyApp : Application() {
         super.onCreate()
         startKoin {
             androidLogger(Level.DEBUG)
-            androidContext(this@RolePlayPartyApp)
+            androidContext(this@RPGAssistantApp)
             modules(
                 listOf(
                     dataModule.dataModule,
