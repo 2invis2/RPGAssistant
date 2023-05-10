@@ -12,11 +12,11 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "RolePlayParty"
+rootProject.name = "RPGAssistant"
 include ':app'
 include ':core'
 include ':data'
 include ':domain'
-include ':list-party'
 include ':base'
-include ':auth'
+include ':feature:auth'
+include ':feature:list-party'
